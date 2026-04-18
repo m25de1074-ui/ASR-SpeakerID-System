@@ -102,17 +102,17 @@ def process(
         )
         
         # Print summary
-        click.echo(f"\n✅ Processing completed!")
-        click.echo(f"📁 Input: {input_file}")
-        click.echo(f"📄 Output: {output}")
-        click.echo(f"🤖 Whisper model: {pipeline.config.whisper_model}")
-        click.echo(f"🎭 Pyannote model: {pipeline.config.pyannote_model}")
-        click.echo(f"⏱️  Duration: {result.total_duration:.2f}s")
-        click.echo(f"👥 Speakers: {len(result.speakers)}")
+        click.echo(f"\n Processing completed!")
+        click.echo(f" Input: {input_file}")
+        click.echo(f" Output: {output}")
+        click.echo(f" Whisper model: {pipeline.config.whisper_model}")
+        click.echo(f" Pyannote model: {pipeline.config.pyannote_model}")
+        click.echo(f"  Duration: {result.total_duration:.2f}s")
+        click.echo(f" Speakers: {len(result.speakers)}")
         
         # Show speaker statistics
         stats = result.get_speaker_stats()
-        click.echo("\n📊 Speaker Statistics:")
+        click.echo("\n Speaker Statistics:")
         for speaker, data in stats.items():
             click.echo(f"  {speaker}: {data['total_time']:.1f}s ({data['percentage']:.1f}%) "
                       f"- {data['segments_count']} segments, {data['word_count']} words")
@@ -132,25 +132,25 @@ def info(input_file: Path) -> None:
         processor = AudioProcessor()
         
         if not processor.validate_audio_format(str(input_file)):
-            click.echo(f"❌ Invalid audio file: {input_file}")
+            click.echo(f"Invalid audio file: {input_file}")
             sys.exit(1)
         
         duration = processor.get_audio_duration(str(input_file))
         
-        click.echo(f"📁 File: {input_file}")
-        click.echo(f"⏱️  Duration: {duration:.2f}s ({duration/60:.1f} minutes)")
-        click.echo(f"📊 Size: {input_file.stat().st_size / (1024*1024):.1f} MB")
-        click.echo(f"✅ Format: Supported")
+        click.echo(f" File: {input_file}")
+        click.echo(f"  Duration: {duration:.2f}s ({duration/60:.1f} minutes)")
+        click.echo(f"Size: {input_file.stat().st_size / (1024*1024):.1f} MB")
+        click.echo(f" Format: Supported")
         
     except Exception as e:
-        click.echo(f"❌ Error analyzing file: {e}")
+        click.echo(f" Error analyzing file: {e}")
         sys.exit(1)
 
 
 @cli.command()
 def models() -> None:
     """Show information about available models."""
-    click.echo("🤖 Available Whisper Models:")
+    click.echo(" Available Whisper Models:")
     whisper_models = [
         ("tiny", "~39 MB", "Fastest, lowest accuracy"),
         ("base", "~74 MB", "Good balance of speed and accuracy"),
@@ -164,7 +164,7 @@ def models() -> None:
     for name, size, desc in whisper_models:
         click.echo(f"  {name:10} {size:10} - {desc}")
     
-    click.echo("\n🎭 Pyannote Models:")
+    click.echo("\n Pyannote Models:")
     click.echo("  pyannote/speaker-diarization-3.1 - Latest speaker diarization model")
     click.echo("  (Requires Hugging Face token and license acceptance)")
 
@@ -172,7 +172,7 @@ def models() -> None:
 @cli.command()
 def setup() -> None:
     """Setup guide for first-time users."""
-    click.echo("🚀 Speech Pipeline Setup Guide")
+    click.echo(" Speech Pipeline Setup Guide")
     click.echo("=" * 40)
     
     click.echo("\n1. Sync dependencies (creates .venv automatically):")
@@ -196,7 +196,7 @@ def setup() -> None:
     click.echo("   uv run speech-pipeline process input.wav --output output.srt")
     click.echo("   # Or try the demo: uv run python quickstart.py --demo")
     
-    click.echo("\n📚 For more info, see README.md")
+    click.echo("\n For more info, see README.md")
 
 
 def main() -> None:
