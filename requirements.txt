@@ -1,21 +1,74 @@
-faster-whisper==1.0.3
-ctranslate2==4.4.0
+# =============================================================================
+# ASR-SpeakerID-System — Requirements
+# IIT Jodhpur M.Tech. Minor Project, Batch M25DE, 2024-25
+#
+# Install with pip:
+#   pip install -r requirements.txt
+#
+# NOTE: For CUDA 12.6 support, install PyTorch first:
+#   pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu126
+#
+# For uv users, run `uv sync` instead — CUDA wheels are auto-selected.
+# =============================================================================
 
-pyannote.audio==3.1.1
-torch>=2.1.0
-torchaudio>=2.1.0
 
-numpy>=1.23
-scipy>=1.10
-pandas>=1.5
+# ── Deep Learning Runtime ────────────────────────────────────────────────────
+# Install PyTorch manually for CUDA support (see note above).
+# The line below installs the CPU-only build as a fallback.
+torch>=2.8.0
 
+
+# ── ASR Engine ───────────────────────────────────────────────────────────────
+# Faster-Whisper: CTranslate2-based Whisper with 2–4× speedup
+faster-whisper>=1.0.0
+
+# CTranslate2 backend (pulled in by faster-whisper, pinned for stability)
+ctranslate2>=4.0.0
+
+
+# ── Speaker Diarization ──────────────────────────────────────────────────────
+# Pyannote Audio 3.1 — neural speaker segmentation and embedding
+# Requires Hugging Face account + licence acceptance at:
+# https://huggingface.co/pyannote/speaker-diarization-3.1
+pyannote.audio>=3.1.0
+
+
+# ── Audio I/O ────────────────────────────────────────────────────────────────
+# Primary: librosa for loading, resampling, duration
 librosa>=0.10.0
-soundfile>=0.12.1
-pydub>=0.25.1
 
-ffmpeg-python>=0.2.0
+# Fallback: pydub for unsupported codecs; soundfile for segment saving
+pydub>=0.25.0
+soundfile>=0.12.0
 
+
+# ── Numerical Computing ──────────────────────────────────────────────────────
+numpy>=1.24.0
+scipy>=1.10.0
+
+
+# ── CLI Framework ────────────────────────────────────────────────────────────
+click>=8.1.0
+
+
+# ── Configuration ────────────────────────────────────────────────────────────
+# .env file loading for HF_TOKEN, WHISPER_MODEL, DEVICE, etc.
 python-dotenv>=1.0.0
-tqdm>=4.65.0
 
-pytest>=7.4.0
+
+# ── Hugging Face Hub ─────────────────────────────────────────────────────────
+# Model download and caching (Pyannote models are gated)
+huggingface-hub>=0.22.0
+transformers>=4.40.0
+
+
+# ── Testing ──────────────────────────────────────────────────────────────────
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+
+# ── Optional: Coverage & Linting (development only) ─────────────────────────
+# Uncomment if needed for development:
+# coverage>=7.0.0
+# ruff>=0.4.0
+# black>=24.0.0
